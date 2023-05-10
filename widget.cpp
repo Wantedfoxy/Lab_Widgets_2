@@ -42,11 +42,11 @@ Widget::Widget(QWidget *parent)
     }
 
     // Связь сигналов и слотов
-    connect(ui->calcButton,SIGNAL(clicked(bool)),
+    connect(ui->calcButton,SIGNAL(clicked()),
             edit1,SLOT(add_one()));
     connect(edit1,SIGNAL(tick_signal()),
             edit2,SLOT(add_one()));
-    connect(ui->exitButton,SIGNAL(clicked(bool)),
+    connect(ui->exitButton,SIGNAL(clicked()),
             this,SLOT(close()));
 }
 
