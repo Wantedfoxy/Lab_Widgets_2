@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QPushButton>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -35,7 +36,12 @@ public:
         QSize sizeHint = parent->sizeHint();
         // Устанавливаем размер от родительского элемента
         setGeometry(0,0, parent->parentWidget()->width(), sizeHint.height());
-    }
+    };
+    ~Counter()
+    {
+        delete this;
+    };
+
 signals:
     // Сигнал, который будет отправлен при достижении числа, кратного 5
     void tick_signal();
@@ -47,10 +53,10 @@ public slots:
         // Получаем текущее значение счетчика
         QString str=text();
         int r=str.toInt();
-        // Если число кратно 5, то отправляем сигнал tick_signal()
-        if (r!=0 && r%5 ==0) emit tick_signal();
         // Увеличиваем значение счетчика на 1
         r++;
+        // Если число кратно 5, то отправляем сигнал tick_signal()
+        if (r!=0 && r%5 ==0) emit tick_signal();
         // Преобразуем значение в строку и устанавливаем его в QLineEdit
         str.setNum(r);
         setText(str);

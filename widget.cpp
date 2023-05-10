@@ -5,13 +5,39 @@
 // Конструктор класса Widget
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::Widget)
 {
+    // Обработка исключения при неуспешном выделении памяти
+    try {
+        ui = new Ui::Widget;
+        if (ui == nullptr) {
+            throw std::bad_alloc();
+        };
+    }
+    catch (const std::bad_alloc&) {
+        QMessageBox meesageBox(QMessageBox::Information,
+                               "Счетчик",
+                               "Ошибка: невозможно выделить память. Пожалуйста, перезапустите приложение!",
+                               QMessageBox::Ok);
+        // Запускаем диалоговое окно сообщения msgBox и блокирует дальнейшее выполнение
+        // программы до тех пор, пока пользователь не закроет это окно
+        meesageBox.exec();
+    };
     // Инициализация пользовательского интерфейса
     ui->setupUi(this);
 
     Counter *edit1 = new Counter("0", ui->lineEdit);
     Counter *edit2 = new Counter("0", ui->countFive);
+
+    if (edit1 == nullptr or edit2 == nullptr)
+    {
+        QMessageBox meesageBox(QMessageBox::Information,
+                               "Счетчик",
+                               "Ошибка: невозможно выделить память. Пожалуйста, перезапустите приложение!",
+                               QMessageBox::Ok);
+        // Запускаем диалоговое окно сообщения msgBox и блокирует дальнейшее выполнение
+        // программы до тех пор, пока пользователь не закроет это окно
+        meesageBox.exec();
+    }
 
     // Связь сигналов и слотов
     connect(ui->calcButton,SIGNAL(clicked(bool)),
